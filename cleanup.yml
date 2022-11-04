@@ -54,7 +54,7 @@
     - chocolatey
     - software
 
-- hosts: computerlokaal:extra:technieklokaal:new
+- hosts: computers
   strategy: free
   tasks:
   - name: Remove software
@@ -152,31 +152,12 @@
 #    - Hearts
 #    - Internet-Explorer-Optional-amd64
 
-- hosts: computerlokaal
-  tasks:
-  - name: Remove all Appx packages for user leerling
-    win_shell: |
-      Get-AppxPackage | Remove-AppxPackage
-    register: appx
-    changed_when: "'Deployment operation progress: ' in appx.stderr"
-    failed_when: no
-    become: leerling
-    tags: appx
-
-  - name: Remove all Appx packages for user leerling
-    win_shell: |
-      Get-AppxPackage -User leerling | Remove-AppxPackage
-    register: appx
-    changed_when: "'Deployment operation progress: ' in appx.stderr"
-    failed_when: no
-    tags: appx
-
 - hosts: computers
   tasks:
   - name: Remove all Appx packages for this user
     win_shell: |
-      Get-AppxPackage | Remove-AppxPackage
-      #Get-AppxPackage -AllUsers | Remove-AppxPackage
+      #Get-AppxPackage | Remove-AppxPackage
+      Get-AppxPackage -AllUsers | Remove-AppxPackage
     register: appx
     changed_when: "'Deployment operation progress: ' in appx.stderr"
     failed_when: no
